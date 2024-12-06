@@ -65,7 +65,7 @@ def resize_texture(image, max_size=1024):
 force_continue = True
 
 filePath = ""
-scaling_ratio = 1.0
+scaling_ratio = "large"
 loopCount = 0
 # this is a terrible hack which i haven't refactored because i haven't wanted to coordinate
 # the change on the invocation side. Someone, please redo this with actual commandline args.
@@ -80,7 +80,7 @@ for current_argument in sys.argv:
         filePath = current_argument
 
     if(force_continue == False and loopCount == 1):
-        scaling_ratio = float(current_argument)
+        scaling_ratio = current_argument
 
     loopCount = loopCount + 1
 
@@ -129,16 +129,30 @@ obj = bpy.context.selected_objects[0]
 
 # Add the Decimate Modifier
 decimate_modifier = obj.modifiers.new(name='DecimateMod', type='DECIMATE')
-decimate_modifier.ratio = scaling_ratio
+
+# get the current face count
+original_face_count = len(obj.data.polygons)
+scaling_ratio_float = 1.0
+if(scaling_ratio == "small" and original_face_count > 150000):
+    scaling_ratio_float = 150000 / original_face_count
+
+if(scaling_ratio == "medium" and original_face_count > 150000):
+    scaling_ratio_float = 150000 / original_face_count
+if(scaling_ratio == "large" and original_face_count > 350000):
+    scaling_ratio_float = 350000 / original_face_count
+
+print("Computed a scaling ratio of " + str(scaling_ratio_float) + " to get face count under " + str(scaling_ratio))
+
+decimate_modifier.ratio = scaling_ratio_float
 
 # Apply the modifier
 bpy.ops.object.modifier_apply(modifier='DecimateMod')
 for image in bpy.data.images:
     if(image.size[0] == image.size[1]):
         if(image.size[0] >= 4096 or image.size[1] >= 4096):
-            if(scaling_ratio <= 0.2):
+            if(scaling_ratio == "small"):
                 image.scale(1024,1024)
-            elif(scaling_ratio <= 0.5):
+            elif(scaling_ratio == "medium"):
                 image.scale(2048, 2048)
             else:
                 image.scale(4096, 4096)
