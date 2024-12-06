@@ -34,7 +34,8 @@ ADD     newstage.blend /opt/stage.blend
 # CMD         ["--help"]
 # ENTRYPOINT  ["blender"]
 ENV         LD_LIBRARY_PATH=/usr/local/lib
-
+# COPY install.py /root/install.py
+# RUN /usr/local/blender/blender -b /opt/stage.blend -P /root/install.py
 COPY convert.py /root/convert.py
 COPY glb.py /root/glb.py
 
