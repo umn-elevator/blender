@@ -133,8 +133,8 @@ decimate_modifier = obj.modifiers.new(name='DecimateMod', type='DECIMATE')
 # get the current face count
 original_face_count = len(obj.data.polygons)
 scaling_ratio_float = 1.0
-if(scaling_ratio == "small" and original_face_count > 150000):
-    scaling_ratio_float = 150000 / original_face_count
+if(scaling_ratio == "thumb" and original_face_count > 10000):
+    scaling_ratio_float = 10000 / original_face_count
 
 if(scaling_ratio == "medium" and original_face_count > 150000):
     scaling_ratio_float = 150000 / original_face_count
@@ -150,8 +150,8 @@ bpy.ops.object.modifier_apply(modifier='DecimateMod')
 for image in bpy.data.images:
     if(image.size[0] == image.size[1]):
         if(image.size[0] >= 4096 or image.size[1] >= 4096):
-            if(scaling_ratio == "small"):
-                image.scale(1024,1024)
+            if(scaling_ratio == "thumb"):
+                image.scale(512,512)
             elif(scaling_ratio == "medium"):
                 image.scale(2048, 2048)
             else:
