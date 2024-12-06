@@ -135,7 +135,7 @@ decimate_modifier.ratio = scaling_ratio
 bpy.ops.object.modifier_apply(modifier='DecimateMod')
 for image in bpy.data.images:
     if(image.size[0] == image.size[1]):
-        if(image.size[0] > 4096 or image.size[1] > 4096):
+        if(image.size[0] >= 4096 or image.size[1] >= 4096):
             if(scaling_ratio <= 0.2):
                 image.scale(1024,1024)
             elif(scaling_ratio <= 0.5):
