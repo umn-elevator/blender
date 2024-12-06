@@ -138,8 +138,8 @@ if(scaling_ratio == "thumb" and original_face_count > 10000):
 
 if(scaling_ratio == "medium" and original_face_count > 150000):
     scaling_ratio_float = 150000 / original_face_count
-if(scaling_ratio == "large" and original_face_count > 350000):
-    scaling_ratio_float = 350000 / original_face_count
+if(scaling_ratio == "large" and original_face_count > 150000):
+    scaling_ratio_float = 150000 / original_face_count
 
 print("Computed a scaling ratio of " + str(scaling_ratio_float) + " to get face count under " + str(scaling_ratio))
 
