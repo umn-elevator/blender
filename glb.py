@@ -172,5 +172,15 @@ if outputFormat == "glb":
 elif outputFormat == "usdz":
     export_file = current_directory + "/" + current_basename + ".usdz"
     print("Writing: '" + export_file + "'")
+    # Set the maximum dimension
+    maxDimension = 1.0
+    obj = bpy.context.active_object
+
+    # Calculate the scale factor
+    scaleFactor = maxDimension / max(obj.dimensions)
+
+    # Scale the object
+    obj.scale = (scaleFactor, scaleFactor, scaleFactor)
+
     # us bpy.ops.wm.usd_export to export the mesh to usdz
     bpy.ops.wm.usd_export(filepath=export_file)
