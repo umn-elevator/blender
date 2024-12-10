@@ -67,6 +67,7 @@ force_continue = True
 filePath = ""
 scaling_ratio = "large"
 loopCount = 0
+outputFormat = "glb"
 # this is a terrible hack which i haven't refactored because i haven't wanted to coordinate
 # the change on the invocation side. Someone, please redo this with actual commandline args.
 for current_argument in sys.argv:
@@ -82,6 +83,8 @@ for current_argument in sys.argv:
     if(force_continue == False and loopCount == 1):
         scaling_ratio = current_argument
 
+    if(force_continue == False and loopCount == 2):
+        outputFormat = current_argument
     loopCount = loopCount + 1
 
 
@@ -158,8 +161,16 @@ for image in bpy.data.images:
                 image.scale(4096, 4096)
 
 
+bpy.ops.object.origin_set(type='GEOMETRY_ORIGIN', center='MEDIAN')
 
 
-export_file = current_directory + "/" + current_basename + ".glb"
-print("Writing: '" + export_file + "'")
-bpy.ops.export_scene.gltf(filepath=export_file,export_draco_mesh_compression_enable=True )
+
+if outputFormat == "glb":
+    export_file = current_directory + "/" + current_basename + ".glb"
+    print("Writing: '" + export_file + "'")
+    bpy.ops.export_scene.gltf(filepath=export_file,export_draco_mesh_compression_enable=True )
+elif outputFormat == "usdz":
+    export_file = current_directory + "/" + current_basename + ".usdz"
+    print("Writing: '" + export_file + "'")
+    # us bpy.ops.wm.usd_export to export the mesh to usdz
+    bpy.ops.wm.usd_export(filepath=export_file)
