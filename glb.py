@@ -112,7 +112,7 @@ if current_extension == ".fbx":
     bpy.ops.import_scene.fbx(filepath=filePath)    
 
 if current_extension == ".obj":
-    bpy.ops.wm.obj_import(filepath=filePath)    
+    bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False)    
 
 if current_extension == ".ply":
     bpy.ops.import_mesh.ply(filepath=filePath)    
