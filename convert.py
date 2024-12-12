@@ -52,7 +52,7 @@ if current_extension == ".ply":
     tryVertexColorMapping= True
 
 if current_extension == ".stl":
-    bpy.ops.import_mesh.stl(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
+    bpy.ops.wm.stl_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
 
 if current_extension == ".usd" or filePath == ".usda" or current_extension == ".usdc":
     bpy.ops.wm.usd_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
