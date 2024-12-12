@@ -91,8 +91,9 @@ for current_argument in sys.argv:
 root, current_extension = os.path.splitext(filePath)
 current_basename = os.path.basename(root)
 current_directory = os.path.dirname(filePath)
-if current_extension != ".abc" and current_extension != ".blend" and current_extension != ".dae" and current_extension != ".fbx" and current_extension != ".obj" and current_extension != ".ply" and current_extension != ".stl" and current_extension != ".usd" and current_extension != ".usda" and current_extension != ".usdc" and current_extension != ".wrl" and current_extension != ".x3d":
+if current_extension != ".abc" and current_extension != ".blend" and current_extension != ".dae" and current_extension != ".fbx" and current_extension != ".obj" and current_extension != ".ply" and current_extension != ".stl" and current_extension != ".usd" and current_extension != ".usda" and current_extension != ".usdc" and current_extension != ".wrl" and current_extension != ".x3d" and current_extension != ".glb":
     exit
+
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
 print("Converting: '" + filePath + "'")
@@ -113,6 +114,9 @@ if current_extension == ".fbx":
 
 if current_extension == ".obj":
     bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False)    
+
+if current_extension == ".glb":
+    bpy.ops.wm.glb_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')   
 
 if current_extension == ".ply":
     bpy.ops.import_mesh.ply(filepath=filePath)    
