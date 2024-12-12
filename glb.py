@@ -99,6 +99,7 @@ bpy.ops.wm.read_factory_settings(use_empty=True)
 print("Converting: '" + filePath + "'")
 
 #
+tryVertexColorMapping = False
 
 if current_extension == ".abc":
     bpy.ops.wm.alembic_import(filepath=filePath)    
@@ -113,19 +114,19 @@ if current_extension == ".fbx":
     bpy.ops.import_scene.fbx(filepath=filePath)    
 
 if current_extension == ".obj":
-    bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False)    
-
+    bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False, forward_axis='NEGATIVE_X', up_axis='Z')    
 if current_extension == ".glb":
     bpy.ops.import_scene.gltf(filepath=filePath)   
 
 if current_extension == ".ply":
-    bpy.ops.import_mesh.ply(filepath=filePath)    
+    bpy.ops.wm.ply_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
+    tryVertexColorMapping= True
 
 if current_extension == ".stl":
-    bpy.ops.import_mesh.stl(filepath=filePath)
+    bpy.ops.import_mesh.stl(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
 
 if current_extension == ".usd" or filePath == ".usda" or current_extension == ".usdc":
-    bpy.ops.wm.usd_import(filepath=filePath)
+    bpy.ops.wm.usd_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
 
 if current_extension == ".wrl" or filePath == ".x3d":
     bpy.ops.import_scene.x3d(filepath=filePath)
@@ -133,6 +134,30 @@ if current_extension == ".wrl" or filePath == ".x3d":
 #
 # automatically decimate the model
 obj = bpy.context.selected_objects[0]
+
+
+if(tryVertexColorMapping):
+    newmat = bpy.data.materials.new("VertCol")
+    newmat.use_nodes = True
+    node_tree = newmat.node_tree
+    nodes = node_tree.nodes
+
+    bsdf = nodes.get("Principled BSDF") 
+
+
+    vcol = nodes.new(type="ShaderNodeVertexColor")
+    vcol.layer_name = "Col" # the vertex color layer name
+    node_tree.links.new(vcol.outputs[0], bsdf.inputs[0])
+
+    # add material output for bsdf
+    output = nodes.get("Material Output")
+
+    node_tree.links.new(bsdf.outputs[0], output.inputs[0])
+
+
+    bpy.context.active_object.data.materials.append(newmat)
+    print(bpy.context.active_object.data.materials)
+
 
 # Add the Decimate Modifier
 decimate_modifier = obj.modifiers.new(name='DecimateMod', type='DECIMATE')
