@@ -45,7 +45,7 @@ if current_extension == ".fbx":
 if current_extension == ".obj":
     bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False, forward_axis='NEGATIVE_X', up_axis='Z')    
 if current_extension == ".glb":
-    bpy.ops.wm.glb_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')   
+    bpy.ops.import_scene.gltf(filepath=filePath)   
 
 if current_extension == ".ply":
     bpy.ops.wm.ply_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')

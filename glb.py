@@ -116,7 +116,7 @@ if current_extension == ".obj":
     bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False)    
 
 if current_extension == ".glb":
-    bpy.ops.wm.glb_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')   
+    bpy.ops.import_scene.gltf(filepath=filePath)   
 
 if current_extension == ".ply":
     bpy.ops.import_mesh.ply(filepath=filePath)    
@@ -170,11 +170,11 @@ bpy.ops.object.origin_set(type='GEOMETRY_ORIGIN', center='MEDIAN')
 
 
 if outputFormat == "glb":
-    export_file = current_directory + "/" + current_basename + ".glb"
+    export_file = current_directory + "/" + current_basename + "_output.glb"
     print("Writing: '" + export_file + "'")
     bpy.ops.export_scene.gltf(filepath=export_file,export_draco_mesh_compression_enable=True )
 elif outputFormat == "usdz":
-    export_file = current_directory + "/" + current_basename + ".usdz"
+    export_file = current_directory + "/" + current_basename + "_output.usdz"
     print("Writing: '" + export_file + "'")
     # Set the maximum dimension
     maxDimension = 1.0
