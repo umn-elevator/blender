@@ -43,19 +43,19 @@ if current_extension == ".fbx":
     bpy.ops.import_scene.fbx(filepath=filePath)    
 
 if current_extension == ".obj":
-    bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False, forward_axis='NEGATIVE_X', up_axis='Z')    
+    bpy.ops.wm.obj_import(filepath=filePath, use_split_objects=False, forward_axis='NEGATIVE_Z', up_axis='Y')
 if current_extension == ".glb":
     bpy.ops.import_scene.gltf(filepath=filePath)   
 
 if current_extension == ".ply":
-    bpy.ops.wm.ply_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
+    bpy.ops.wm.ply_import(filepath=filePath, forward_axis='NEGATIVE_Z', up_axis='Y')
     tryVertexColorMapping= True
 
 if current_extension == ".stl":
-    bpy.ops.wm.stl_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
+    bpy.ops.wm.stl_import(filepath=filePath, forward_axis='NEGATIVE_Z', up_axis='Y')
 
 if current_extension == ".usd" or filePath == ".usda" or current_extension == ".usdc":
-    bpy.ops.wm.usd_import(filepath=filePath, forward_axis='NEGATIVE_X', up_axis='Z')
+    bpy.ops.wm.usd_import(filepath=filePath, forward_axis='NEGATIVE_Z', up_axis='Y')
 
 if current_extension == ".wrl" or filePath == ".x3d":
     bpy.ops.import_scene.x3d(filepath=filePath)
